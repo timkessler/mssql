@@ -1,0 +1,11 @@
+SELECT
+    d.name AS DatabaseName,
+    ROUND(SUM(CAST(mf.size AS BIGINT)) * 8 / 1024, 0) AS SizeMB,
+    ROUND(SUM(CAST(mf.size AS BIGINT)) * 8 / 1024 / 1024, 2) AS SizeGB
+FROM
+    sys.master_files AS mf
+    INNER JOIN sys.databases AS d ON mf.database_id = d.database_id
+GROUP BY
+    d.name
+ORDER BY
+    d.name;
